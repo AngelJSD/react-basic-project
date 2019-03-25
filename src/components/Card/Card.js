@@ -1,68 +1,98 @@
 import React from "react"
+import "./Card.css"
 
-function Card(props){
+class Card extends React.Component {
 
-    return(
-        <div className="col-sm-4 mt-3">
-            <div className="card">
-                <img className="card-img-top" src={"./assets/images/"+props.crib.image+".jpg"} alt="Card image cap"></img>
-                <div className="card-body">
-                <div>
-                    <h4>
-                    <span className="badge badge-primary">
-                        { props.crib.type }
-                    </span>
-                    </h4>
-                    <h3>
-                    <i className="fa fa-tag"></i> 
-                        { props.crib.price}
-                    </h3>
-                    <h4>
-                    <i className="fa fa-home"></i> 
-                        { props.crib.address }
-                    </h4>
+    constructor(){
 
-                    <hr/>
+        super()
+        this.state = {
+            showDetails: false
+        }
+        this.handleOnCLick = this.handleOnCLick.bind(this)
+    }
 
-                    <button 
-                        className="btn btn-sm btn-success"
-                    >
-                    Details
-                    </button>
+    handleOnCLick(){
+        this.setState(prevState => {
 
-                </div>
+            return{
+                showDetails: !prevState.showDetails
+            }
+        })
+    }
 
-                <div>
-                    <div className="details">
-                    <h4>
-                        <span className="badge badge-primary mr-1">
-                        Beds: { props.crib.bedrooms }
+    render(){
+        return(
+            <div className="col-sm-4 mt-3">
+                <div className="card my-card">
+                    <img className="card-img-top" src={"./assets/images/"+this.props.crib.image+".jpg"} alt="Card image cap"></img>
+                    <div className="card-body">
+                    {!this.state.showDetails ? 
+                    <div>
+                        <h4>
+                        <span className="badge badge-primary">
+                            { this.props.crib.type }
                         </span>
-                        <span className="badge badge-primary mr-1">
-                        Baths: { props.crib.bathrooms }
-                        </span>
-                        <span className="badge badge-primary mr-1">
-                        SqFt: { props.crib.area }
-                        </span>
-                    </h4>
+                        </h4>
+                        <h3>
+                        <i className="fa fa-tag"></i> 
+                            { 
+                                this.props.crib.price.toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                })
+                            }
+                        </h3>
+                        <h4>
+                        <i className="fa fa-home"></i> 
+                            { this.props.crib.address }
+                        </h4>
 
-                    <p>{ props.crib.description }</p>
+                        <hr/>
 
-                    <hr/>
-
-                    <button
-                        className="btn btn-sm btn-danger"
-                    >
-                        Close
-                    </button>
+                        <button 
+                            className="btn btn-sm btn-success"
+                            onClick={this.handleOnCLick}
+                        >
+                        Details
+                        </button>
 
                     </div>
-                </div>
+                    :
+                    <div>
+                        <div className="details">
+                        <h4>
+                            <span className="badge badge-primary mr-1">
+                            Beds: { this.props.crib.bedrooms }
+                            </span>
+                            <span className="badge badge-primary mr-1">
+                            Baths: { this.props.crib.bathrooms }
+                            </span>
+                            <span className="badge badge-primary mr-1">
+                            SqFt: { this.props.crib.area }
+                            </span>
+                        </h4>
+
+                        <p>{ this.props.crib.description }</p>
+
+                        <hr/>
+
+                        <button
+                            className="btn btn-sm btn-danger"
+                            onClick={this.handleOnCLick}
+                        >
+                            Close
+                        </button>
+
+                        </div>
+                    </div>
+                    }
+                    </div>
                 </div>
             </div>
-        </div>
-        
-    )
+            
+        )
+    }
     
 }
 
